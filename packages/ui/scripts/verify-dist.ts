@@ -1,0 +1,35 @@
+import { existsSync, readFileSync } from "node:fs"
+import path from "node:path"
+
+const dist = path.resolve(import.meta.dirname, "../dist")
+const failures: string[] = []
+const USE_CLIENT = /^(\s|\/\*[\s\S]*?\*\/|\/\/[^\n]*\n)*["']use client["']/
+
+function read(file: string): string {
+  const full = path.join(dist, file)
+  if (!existsSync(full)) {
+    failures.push(`missing dist/${file}`)
+    return ""
+  }
+  return readFileSync(full, "utf8")
+}
+
+const index = read("index.js")
+for (const name of ["Button", "buttonVariants", "cn"]) {
+  if (!new RegExp(`\\b${name}\\b`).test(index))
+    failures.push(`dist/index.js does not export ${name}`)
+}
+if (!read("index.d.ts").includes("ButtonProps"))
+  failures.push("dist/index.d.ts lacks ButtonProps")
+if (!USE_CLIENT.test(read("components/button/button.js"))) {
+  failures.push('dist/components/button/button.js must start with "use client"')
+}
+if (read("lib/cn.js").includes("use client")) {
+  failures.push('dist/lib/cn.js must stay server-safe (no "use client")')
+}
+
+if (failures.length > 0) {
+  console.error(failures.join("\n"))
+  process.exit(1)
+}
+console.log("@acme/ui dist OK")

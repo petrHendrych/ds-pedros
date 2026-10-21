@@ -24,12 +24,14 @@
   "scripts": {
     "build": "node scripts/build.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "verify:dist": "publint"
   },
   "devDependencies": {
     "@types/culori": "^4.0.1",
     "@types/node": "^24.19.2",
     "culori": "^4.0.2",
+    "publint": "^0.3.25",
     "style-dictionary": "^5.7.0",
     "typescript": "~6.0.3",
     "vitest": "^5.0.5"
