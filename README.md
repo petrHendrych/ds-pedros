@@ -1,11 +1,12 @@
 # @petrhendrych design system
 
-React component library and design-token system for Acme products: owned shadcn/ui components on
+React component library and design-token system for Pedro's products: owned shadcn/ui components on
 Radix primitives, styled with Tailwind CSS v4, driven by multi-brand design tokens, documented in
 Storybook and guarded by visual-regression tests across browsers and viewports.
 
-> **Status: bootstrapped.** Tokens, Storybook, lint guardrails, Button, visual regression, CI and
-> Changesets are in place; see [Roadmap](#roadmap). Packages are published to GitHub Packages under the `@petrhendrych` scope.
+> **Status: bootstrapped.** Tokens, Storybook, lint guardrails, the first components (Button, Input,
+> Label, Field, Card), visual regression, CI and Changesets are in place; see [Roadmap](#roadmap).
+> Packages are published to GitHub Packages under the `@petrhendrych` scope.
 > Decision record: [`docs/superpowers/specs/2026-10-21-design-system-foundation-design.md`](docs/superpowers/specs/2026-10-21-design-system-foundation-design.md).
 
 ---
@@ -361,7 +362,7 @@ A component is done when:
 
 ## Roadmap
 
-1. ✅ `git init`, `.nvmrc` (GitHub repo still to be created)
+1. ✅ `git init`, `.nvmrc` and the GitHub repo
 2. ✅ Convert to a pnpm monorepo (`packages/tokens`, `packages/ui`), removing the Vite template app
 3. ✅ Tokens: DTCG sources, Style Dictionary build, brands `acme` and `nova` (light + dark)
 4. ✅ Tailwind v4 + shadcn config (Radix), `cn()`, base styles wired to tokens
@@ -370,5 +371,5 @@ A component is done when:
 7. ✅ Playwright VR with the tiered matrix (CI-owned linux baselines)
 8. ✅ ESLint additions (`jsx-a11y-x`, `storybook`, `better-tailwindcss`)
 9. ✅ GitHub Actions: lint, typecheck, test, VR, Storybook deploy to Pages
-10. ✅ Changesets (publishing waits for the real npm scope)
+10. ✅ Changesets, publishing to GitHub Packages as private `@petrhendrych/*` packages
 11. First components: Button ✅, Input ✅, Label ✅, Field ✅, Card ✅; next: Dialog, then grow by demand
