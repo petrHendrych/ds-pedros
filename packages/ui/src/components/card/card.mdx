@@ -1,0 +1,32 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks"
+
+import * as CardStories from "./card.stories"
+
+<Meta of={CardStories} name="Usage" />
+
+# Card
+
+A surface that groups related content and actions.
+
+<Canvas of={CardStories.ActionBesideTitle} />
+
+## Composition
+
+`Card` › `CardHeader` (`CardTitle`, `CardDescription`, optional `CardAction`) › `CardContent` › `CardFooter`.
+
+## Responsive behavior
+
+Card is a container (`@container/card`), so it adapts to the space it is given, not the viewport:
+
+- Below 24rem wide, padding shrinks and `CardAction` moves below the title.
+- Footer items wrap instead of overflowing.
+
+## Do
+
+- Pick the `CardTitle` heading level that fits the page outline (`as="h2"` … `"h6"`; default `h3`).
+- Keep one primary action per card, in the footer or as `CardAction`.
+
+## Accessibility
+
+- `CardTitle` is a real heading, so cards are reachable with heading navigation.
+- Renders in Server Components (no `"use client"`).

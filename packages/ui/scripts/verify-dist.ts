@@ -15,17 +15,47 @@ function read(file: string): string {
 }
 
 const index = read("index.js")
-for (const name of ["Button", "buttonVariants", "cn"]) {
+for (const name of [
+  "Button",
+  "buttonVariants",
+  "cn",
+  "Input",
+  "Label",
+  "Field",
+  "FieldControl",
+  "FieldDescription",
+  "FieldError",
+  "FieldGroup",
+  "FieldLabel",
+  "Card",
+  "CardAction",
+  "CardContent",
+  "CardDescription",
+  "CardFooter",
+  "CardHeader",
+  "CardTitle",
+]) {
   if (!new RegExp(`\\b${name}\\b`).test(index))
     failures.push(`dist/index.js does not export ${name}`)
 }
 if (!read("index.d.ts").includes("ButtonProps"))
   failures.push("dist/index.d.ts lacks ButtonProps")
-if (!USE_CLIENT.test(read("components/button/button.js"))) {
-  failures.push('dist/components/button/button.js must start with "use client"')
+// Interactive components must stay client components after bundling.
+for (const file of [
+  "components/button/button.js",
+  "components/label/label.js",
+  "components/field/field.js",
+]) {
+  if (!USE_CLIENT.test(read(file)))
+    failures.push(`dist/${file} must start with "use client"`)
 }
 // Server Components call variant helpers (e.g. <Link className={buttonVariants()} />), so they must not be client references.
-for (const file of ["lib/cn.js", "components/button/button-variants.js"]) {
+for (const file of [
+  "lib/cn.js",
+  "components/button/button-variants.js",
+  "components/input/input.js",
+  "components/card/card.js",
+]) {
   if (read(file).includes("use client"))
     failures.push(`dist/${file} must stay server-safe (no "use client")`)
 }
