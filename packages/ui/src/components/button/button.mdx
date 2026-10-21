@@ -1,0 +1,31 @@
+import { Canvas, Controls, Meta } from "@storybook/addon-docs/blocks"
+
+import * as ButtonStories from "./button.stories"
+
+<Meta of={ButtonStories} name="Usage" />
+
+# Button
+
+Triggers an action in place. For navigation, render a link with `asChild`.
+
+<Canvas of={ButtonStories.Variants} />
+<Controls of={ButtonStories.Default} />
+
+## Do
+
+- Use one `default` button per view and pair it with `outline` or `ghost`.
+- Give icon-only buttons an `aria-label`.
+- Let long labels wrap; the button grows in height.
+- Navigate with `<Button asChild><a href="…">…</a></Button>`.
+- Change appearance through a variant or a token.
+
+## Accessibility
+
+| Key               | Action                    |
+| ----------------- | ------------------------- |
+| `Tab`             | Moves focus to the button |
+| `Enter` / `Space` | Activates the button      |
+
+- Renders a native `<button type="button">`; disabled buttons use the native `disabled` attribute.
+- Focus shows a 2px `ring` outline that stays visible in forced-colors mode.
+- On touch devices the target is at least 44×44px.
