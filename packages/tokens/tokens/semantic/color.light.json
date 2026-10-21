@@ -1,0 +1,30 @@
+{
+  "color": {
+    "$type": "color",
+    "background": { "$value": "{palette.neutral.0}" },
+    "foreground": { "$value": "{palette.neutral.950}" },
+    "card": { "$value": "{palette.neutral.0}" },
+    "card-foreground": { "$value": "{palette.neutral.950}" },
+    "popover": { "$value": "{palette.neutral.0}" },
+    "popover-foreground": { "$value": "{palette.neutral.950}" },
+    "primary": { "$value": "{palette.neutral.900}" },
+    "primary-foreground": { "$value": "{palette.neutral.50}" },
+    "secondary": { "$value": "{palette.neutral.100}" },
+    "secondary-foreground": { "$value": "{palette.neutral.900}" },
+    "muted": { "$value": "{palette.neutral.100}" },
+    "muted-foreground": { "$value": "{palette.neutral.600}" },
+    "accent": { "$value": "{palette.neutral.100}" },
+    "accent-foreground": { "$value": "{palette.neutral.900}" },
+    "destructive": { "$value": "{palette.red.600}" },
+    "destructive-foreground": { "$value": "{palette.neutral.0}" },
+    "success": { "$value": "{palette.green.700}" },
+    "success-foreground": { "$value": "{palette.neutral.0}" },
+    "warning": { "$value": "{palette.amber.400}" },
+    "warning-foreground": { "$value": "{palette.neutral.950}" },
+    "info": { "$value": "{palette.blue.600}" },
+    "info-foreground": { "$value": "{palette.neutral.0}" },
+    "border": { "$value": "{palette.neutral.200}" },
+    "input": { "$value": "{palette.neutral.500}" },
+    "ring": { "$value": "{palette.blue.600}" }
+  }
+}
