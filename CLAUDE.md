@@ -15,6 +15,7 @@ structural work. When the code and the README disagree, ask which one is right.
 ## Done means verified
 
 Before you report work as done:
+
 1. Run the lint, typecheck and test scripts from `package.json` and paste the result.
 2. Check the component against the Definition of Done checklist in `README.md`.
 

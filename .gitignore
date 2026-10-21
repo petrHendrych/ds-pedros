@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# design system
+storybook-static
+playwright-report
+test-results
+*.tsbuildinfo
+debug-storybook.log
+# visual baselines: only CI-generated linux baselines are committed
+packages/ui/tests/visual/__screenshots__/darwin/
+packages/ui/tests/visual/__screenshots__/win32/

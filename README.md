@@ -15,8 +15,8 @@ Storybook and guarded by visual-regression tests across browsers and viewports.
 
 1. **Tokens first.** Every color, space, size, radius, font, shadow, duration and z-index comes from a
    design token. Components never contain raw values.
-2. **Responsive first.** Mobile-first styles; components adapt to their *container* (container
-   queries), pages adapt to the *viewport* (breakpoints). Every component is verified at every
+2. **Responsive first.** Mobile-first styles; components adapt to their _container_ (container
+   queries), pages adapt to the _viewport_ (breakpoints). Every component is verified at every
    supported width.
 3. **Accessible by default.** WCAG 2.2 AA is a merge gate, not a goal.
 4. **We own the code.** Components start from shadcn/ui and become ours; upstream changes are pulled
@@ -26,23 +26,23 @@ Storybook and guarded by visual-regression tests across browsers and viewports.
 
 ## Stack
 
-| Concern              | Choice                                                                       |
-| -------------------- | ---------------------------------------------------------------------------- |
-| UI runtime           | React 19, TypeScript                                                         |
-| Styling              | Tailwind CSS v4 (CSS-first `@theme`)                                         |
-| Components           | shadcn/ui (owned fork) on Radix UI primitives                                |
-| Variants             | `class-variance-authority` + `cn()` (`clsx` + `tailwind-merge`)              |
-| Icons                | `lucide-react`                                                               |
-| Tokens               | W3C DTCG JSON → Style Dictionary → CSS variables, Tailwind `@theme`, TS      |
-| Docs & workbench     | Storybook 10 (`@storybook/react-vite`), autodocs + MDX                       |
-| Interaction tests    | Storybook `play` functions run by Vitest (`@storybook/addon-vitest`)         |
-| Unit tests           | Vitest                                                                       |
-| Visual regression    | Playwright, in the official Playwright Docker image                          |
-| Accessibility checks | Storybook a11y addon, `@axe-core/playwright`, `eslint-plugin-jsx-a11y`       |
-| Library build        | tsdown (ESM + `.d.ts`)                                                       |
-| Package manager      | pnpm workspaces (Node 24, pinned in `.nvmrc`)                                |
-| Versioning           | Changesets                                                                   |
-| CI / docs hosting    | GitHub Actions; Storybook published to GitHub Pages                          |
+| Concern              | Choice                                                                  |
+| -------------------- | ----------------------------------------------------------------------- |
+| UI runtime           | React 19, TypeScript                                                    |
+| Styling              | Tailwind CSS v4 (CSS-first `@theme`)                                    |
+| Components           | shadcn/ui (owned fork) on Radix UI primitives                           |
+| Variants             | `class-variance-authority` + `cn()` (`clsx` + `tailwind-merge`)         |
+| Icons                | `lucide-react`                                                          |
+| Tokens               | W3C DTCG JSON → Style Dictionary → CSS variables, Tailwind `@theme`, TS |
+| Docs & workbench     | Storybook 10 (`@storybook/react-vite`), autodocs + MDX                  |
+| Interaction tests    | Storybook `play` functions run by Vitest (`@storybook/addon-vitest`)    |
+| Unit tests           | Vitest                                                                  |
+| Visual regression    | Playwright, in the official Playwright Docker image                     |
+| Accessibility checks | Storybook a11y addon, `@axe-core/playwright`, `eslint-plugin-jsx-a11y`  |
+| Library build        | tsdown (ESM + `.d.ts`)                                                  |
+| Package manager      | pnpm workspaces (Node 24, pinned in `.nvmrc`)                           |
+| Versioning           | Changesets                                                              |
+| CI / docs hosting    | GitHub Actions; Storybook published to GitHub Pages                     |
 
 ## Repository structure (target)
 
@@ -72,10 +72,10 @@ Storybook and guarded by visual-regression tests across browsers and viewports.
 
 ### Tiers
 
-| Tier          | Example                              | Who references it                            |
-| ------------- | ------------------------------------ | -------------------------------------------- |
-| **Primitive** | `color.blue.600`, `space.4`          | Only semantic tokens                         |
-| **Semantic**  | `color.bg.surface`, `space.inset.md` | Components (via Tailwind utilities)          |
+| Tier          | Example                              | Who references it                                                               |
+| ------------- | ------------------------------------ | ------------------------------------------------------------------------------- |
+| **Primitive** | `color.blue.600`, `space.4`          | Only semantic tokens                                                            |
+| **Semantic**  | `color.bg.surface`, `space.inset.md` | Components (via Tailwind utilities)                                             |
 | **Component** | `button.bg.primary`                  | Added **on demand**, only when a brand needs to diverge from the semantic layer |
 
 Components consume **semantic tokens only**. Brands override primitives and/or semantics; a brand
@@ -141,6 +141,7 @@ Files in `dist/` are **generated**. To change a value, edit the JSON source and 
   ```
 
   We pull upstream changes manually by diff review. We never run `shadcn add --overwrite`.
+
 - **Conventions.**
   - Variants are defined with `cva`.
   - Class names are merged with `cn()`.
@@ -190,32 +191,32 @@ Responsiveness is a top priority.
 
 Last 2 versions of evergreen browsers.
 
-| Playwright profile    | Engine   | Purpose                   |
-| --------------------- | -------- | ------------------------- |
-| Desktop Chrome / Edge | Chromium | Primary                   |
-| Desktop Firefox       | Gecko    | Cross-engine              |
-| Desktop Safari        | WebKit   | Cross-engine              |
-| Mobile Safari         | WebKit   | iPhone emulation (touch)  |
-| Mobile Chrome         | Chromium | Pixel emulation (touch)   |
+| Playwright profile    | Engine   | Purpose                  |
+| --------------------- | -------- | ------------------------ |
+| Desktop Chrome / Edge | Chromium | Primary                  |
+| Desktop Firefox       | Gecko    | Cross-engine             |
+| Desktop Safari        | WebKit   | Cross-engine             |
+| Mobile Safari         | WebKit   | iPhone emulation (touch) |
+| Mobile Chrome         | Chromium | Pixel emulation (touch)  |
 
 ## Testing
 
-| Layer             | Tool                                       | What it proves                                    |
-| ----------------- | ------------------------------------------ | ------------------------------------------------- |
-| Unit              | Vitest                                     | Utilities, hooks, token transforms                |
-| Interaction + a11y| Storybook `play` via `@storybook/addon-vitest` (browser mode) | Behavior, keyboard flows, axe per story |
-| Visual regression | Playwright over the built Storybook        | Pixels across engines, widths, brands, themes     |
+| Layer              | Tool                                                          | What it proves                                |
+| ------------------ | ------------------------------------------------------------- | --------------------------------------------- |
+| Unit               | Vitest                                                        | Utilities, hooks, token transforms            |
+| Interaction + a11y | Storybook `play` via `@storybook/addon-vitest` (browser mode) | Behavior, keyboard flows, axe per story       |
+| Visual regression  | Playwright over the built Storybook                           | Pixels across engines, widths, brands, themes |
 
 **Stories are the test cases.** Playwright reads the Storybook index and screenshots each story
 according to the matrix below.
 
 ### Visual-regression matrix (tiered)
 
-| Tier            | Brand        | Profiles                              | Widths                  | Themes       |
-| --------------- | ------------ | ------------------------------------- | ----------------------- | ------------ |
-| A: full         | default      | Chromium                              | 360, 768, 1280, 1536    | light + dark |
-| B: cross-engine | default      | Firefox, WebKit, Mobile Safari, Mobile Chrome | 360 + 1280 (mobile profiles use device width) | light |
-| C: brands       | each other brand | Chromium                          | 1280                    | light + dark |
+| Tier            | Brand            | Profiles                                      | Widths                                        | Themes       |
+| --------------- | ---------------- | --------------------------------------------- | --------------------------------------------- | ------------ |
+| A: full         | default          | Chromium                                      | 360, 768, 1280, 1536                          | light + dark |
+| B: cross-engine | default          | Firefox, WebKit, Mobile Safari, Mobile Chrome | 360 + 1280 (mobile profiles use device width) | light        |
+| C: brands       | each other brand | Chromium                                      | 1280                                          | light + dark |
 
 ### Deterministic screenshots
 
@@ -240,9 +241,9 @@ pnpm add @acme/ui @acme/tokens
 ```css
 /* app entry CSS */
 @import "tailwindcss";
-@import "@acme/tokens/brands/acme.css";   /* exactly one brand */
-@import "@acme/tokens/theme.css";         /* Tailwind @theme mapping */
-@source "../node_modules/@acme/ui";       /* let Tailwind see component classes */
+@import "@acme/tokens/brands/acme.css"; /* exactly one brand */
+@import "@acme/tokens/theme.css"; /* Tailwind @theme mapping */
+@source "../node_modules/@acme/ui"; /* let Tailwind see component classes */
 ```
 
 ```tsx
@@ -260,17 +261,17 @@ import { Button } from "@acme/ui";
 
 Requires Node 24 (`.nvmrc`), pnpm and Docker (for visual tests).
 
-| Script                    | Does                                               |
-| ------------------------- | -------------------------------------------------- |
-| `pnpm storybook`          | Storybook dev server (the component workbench)     |
-| `pnpm tokens:build`       | Regenerate `packages/tokens/dist`                  |
-| `pnpm build`              | Build all packages                                 |
-| `pnpm lint`               | ESLint (incl. a11y, Storybook, Tailwind rules)     |
-| `pnpm typecheck`          | `tsc -b`                                           |
-| `pnpm test`               | Vitest: unit + Storybook interaction/a11y tests    |
-| `pnpm test:visual`        | Playwright visual regression (Docker)              |
-| `pnpm test:visual:update` | Regenerate VR baselines (Docker)                   |
-| `pnpm changeset`          | Describe a change for the next release             |
+| Script                    | Does                                            |
+| ------------------------- | ----------------------------------------------- |
+| `pnpm storybook`          | Storybook dev server (the component workbench)  |
+| `pnpm tokens:build`       | Regenerate `packages/tokens/dist`               |
+| `pnpm build`              | Build all packages                              |
+| `pnpm lint`               | ESLint (incl. a11y, Storybook, Tailwind rules)  |
+| `pnpm typecheck`          | `tsc -b`                                        |
+| `pnpm test`               | Vitest: unit + Storybook interaction/a11y tests |
+| `pnpm test:visual`        | Playwright visual regression (Docker)           |
+| `pnpm test:visual:update` | Regenerate VR baselines (Docker)                |
+| `pnpm changeset`          | Describe a change for the next release          |
 
 ## Releasing & deprecation
 

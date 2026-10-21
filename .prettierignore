@@ -1,0 +1,8 @@
+pnpm-lock.yaml
+**/dist
+**/storybook-static
+**/playwright-report
+**/test-results
+**/__screenshots__
+.idea
+.superpowers
