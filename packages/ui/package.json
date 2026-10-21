@@ -5,7 +5,7 @@
   "description": "Acme React components: owned shadcn/ui on Radix, styled with @petrhendrych/tokens.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/petrHendrych/ds-test.git",
+    "url": "git+https://github.com/petrHendrych/ds-pedros.git",
     "directory": "packages/ui"
   },
   "files": [

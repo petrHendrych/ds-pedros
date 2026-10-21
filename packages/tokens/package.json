@@ -5,7 +5,7 @@
   "description": "Acme design tokens (W3C DTCG) compiled to brand CSS variables, a Tailwind v4 theme and TS constants.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/petrHendrych/ds-test.git",
+    "url": "git+https://github.com/petrHendrych/ds-pedros.git",
     "directory": "packages/tokens"
   },
   "files": [
