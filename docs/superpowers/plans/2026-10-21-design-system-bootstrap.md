@@ -2043,7 +2043,7 @@ import { Slot } from "radix-ui"
 import { cn } from "../../lib/cn"
 
 const buttonVariants = cva(
-  "pointer-coarse:min-h-touch focus-visible:outline-ring aria-invalid:border-destructive inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-transparent text-center text-sm font-medium transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex shrink-0 items-center justify-center gap-2 rounded-md border border-transparent text-center text-sm font-medium transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive pointer-coarse:min-h-touch [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {

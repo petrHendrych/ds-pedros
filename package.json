@@ -14,7 +14,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm tokens:build && pnpm -r test"
+    "test": "pnpm tokens:build && pnpm -r test",
+    "storybook": "pnpm tokens:build && pnpm --filter @acme/ui storybook"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
