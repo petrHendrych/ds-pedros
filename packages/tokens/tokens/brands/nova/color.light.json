@@ -1,0 +1,8 @@
+{
+  "color": {
+    "$type": "color",
+    "primary": { "$value": "{palette.violet.600}" },
+    "primary-foreground": { "$value": "{palette.neutral.0}" },
+    "ring": { "$value": "{palette.violet.600}" }
+  }
+}

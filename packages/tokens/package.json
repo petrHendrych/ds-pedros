@@ -1,0 +1,39 @@
+{
+  "name": "@acme/tokens",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Acme design tokens (W3C DTCG) compiled to brand CSS variables, a Tailwind v4 theme and TS constants.",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./theme.css": "./dist/theme.css",
+    "./brands/*.css": "./dist/brands/*.css",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verify:dist": "publint"
+  },
+  "devDependencies": {
+    "@types/culori": "^4.0.1",
+    "@types/node": "^24.19.2",
+    "culori": "^4.0.2",
+    "publint": "^0.3.25",
+    "style-dictionary": "^5.7.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

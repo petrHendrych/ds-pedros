@@ -1,0 +1,39 @@
+{
+  "palette": {
+    "$type": "color",
+    "$description": "Primitive color ramps. Never referenced by components; semantic tokens alias these.",
+    "neutral": {
+      "0": { "$value": "oklch(1 0 0)" },
+      "50": { "$value": "oklch(0.985 0 0)" },
+      "100": { "$value": "oklch(0.97 0 0)" },
+      "200": { "$value": "oklch(0.922 0 0)" },
+      "300": { "$value": "oklch(0.87 0 0)" },
+      "400": { "$value": "oklch(0.708 0 0)" },
+      "500": { "$value": "oklch(0.556 0 0)" },
+      "600": { "$value": "oklch(0.439 0 0)" },
+      "700": { "$value": "oklch(0.371 0 0)" },
+      "800": { "$value": "oklch(0.269 0 0)" },
+      "900": { "$value": "oklch(0.205 0 0)" },
+      "950": { "$value": "oklch(0.145 0 0)" }
+    },
+    "blue": {
+      "400": { "$value": "oklch(0.707 0.165 254.624)" },
+      "600": { "$value": "oklch(0.546 0.245 262.881)" }
+    },
+    "red": {
+      "400": { "$value": "oklch(0.704 0.191 22.216)" },
+      "600": { "$value": "oklch(0.577 0.245 27.325)" }
+    },
+    "green": {
+      "400": { "$value": "oklch(0.792 0.209 151.711)" },
+      "700": { "$value": "oklch(0.527 0.154 150.069)" }
+    },
+    "amber": {
+      "400": { "$value": "oklch(0.828 0.189 84.429)" }
+    },
+    "violet": {
+      "400": { "$value": "oklch(0.702 0.183 293.541)" },
+      "600": { "$value": "oklch(0.541 0.281 293.009)" }
+    }
+  }
+}
