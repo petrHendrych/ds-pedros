@@ -1,4 +1,4 @@
-import { tokens } from "@acme/tokens"
+import { tokens } from "@petrhendrych/tokens"
 import { clsx, type ClassValue } from "clsx"
 import { extendTailwindMerge } from "tailwind-merge"
 

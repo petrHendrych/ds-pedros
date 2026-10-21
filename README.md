@@ -1,11 +1,11 @@
-# @acme design system
+# @petrhendrych design system
 
 React component library and design-token system for Acme products: owned shadcn/ui components on
 Radix primitives, styled with Tailwind CSS v4, driven by multi-brand design tokens, documented in
 Storybook and guarded by visual-regression tests across browsers and viewports.
 
 > **Status: bootstrapped.** Tokens, Storybook, lint guardrails, Button, visual regression, CI and
-> Changesets are in place; see [Roadmap](#roadmap). `@acme` is a placeholder scope.
+> Changesets are in place; see [Roadmap](#roadmap). Packages are published to GitHub Packages under the `@petrhendrych` scope.
 > Decision record: [`docs/superpowers/specs/2026-10-21-design-system-foundation-design.md`](docs/superpowers/specs/2026-10-21-design-system-foundation-design.md).
 
 ---
@@ -49,7 +49,7 @@ Storybook and guarded by visual-regression tests across browsers and viewports.
 ```
 .
 ├── packages/
-│   ├── tokens/                   @acme/tokens — framework-agnostic
+│   ├── tokens/                   @petrhendrych/tokens — framework-agnostic
 │   │   ├── tokens/
 │   │   │   ├── primitive/        raw color ramps (palette.*)
 │   │   │   ├── semantic/         base.json (radius, font, sizes), color.light.json, color.dark.json
@@ -58,7 +58,7 @@ Storybook and guarded by visual-regression tests across browsers and viewports.
 │   │   ├── scripts/build.ts      writes dist/
 │   │   ├── test/                 contrast, parity, output tests
 │   │   └── dist/                 GENERATED — brand CSS, Tailwind theme, TS constants
-│   └── ui/                       @acme/ui — React components
+│   └── ui/                       @petrhendrych/ui — React components
 │       ├── .storybook/           Storybook config; preview.css is the Tailwind entry
 │       ├── components.json       shadcn CLI config (for `add --diff` / `view`)
 │       ├── src/
@@ -172,7 +172,7 @@ Files in `dist/` are **generated**. To change a value, edit the JSON source and 
   - Nothing touches `window` or `document` at module scope.
   - Styles use semantic token utilities and logical properties only (see [Responsive design](#responsive-design)).
   - Imports inside packages are relative; the `@/` alias exists only for the shadcn CLI.
-- **Public API.** The package root (`@acme/ui`) exports everything that is public. Anything not
+- **Public API.** The package root (`@petrhendrych/ui`) exports everything that is public. Anything not
   exported from the root is internal.
 
 ## Responsive design
@@ -252,7 +252,7 @@ Fonts and anti-aliasing differ between macOS, Windows and Linux, so baselines ar
   re-runs CI and the comparison on that commit.
 - A new story has no baseline yet, so its first comparison fails; run the update on the PR branch.
 - Locally, `pnpm test:visual` compares against your own `darwin/` (or `win32/`) baselines, which
-  are gitignored. Create them with `pnpm --filter @acme/ui test:visual:update`.
+  are gitignored. Create them with `pnpm --filter @petrhendrych/ui test:visual:update`.
 - Fonts are loaded from local files and animations are disabled.
 
 ## Repository setup (one-time, on GitHub)
@@ -273,20 +273,34 @@ Fonts and anti-aliasing differ between macOS, Windows and Linux, so baselines ar
 
 ## Using the packages
 
-```bash
-pnpm add @acme/ui @acme/tokens
+The packages are **private** on GitHub Packages. Installing needs a GitHub personal access token
+(classic) with the `read:packages` scope, from an account that has access to the packages.
+
+```ini
+# .npmrc in the consuming project (keep the token itself out of git)
+@petrhendrych:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_PACKAGES_TOKEN}
 ```
+
+```bash
+export GITHUB_PACKAGES_TOKEN=ghp_…   # read:packages
+pnpm add @petrhendrych/ui @petrhendrych/tokens
+```
+
+In CI, set `GITHUB_PACKAGES_TOKEN` from a secret. A workflow in another repository can use its
+`GITHUB_TOKEN` only after that repository is granted read access in the package settings
+(Package settings → Manage Actions access).
 
 ```css
 /* app entry CSS */
 @import "tailwindcss";
-@import "@acme/tokens/brands/acme.css"; /* exactly one brand */
-@import "@acme/tokens/theme.css"; /* Tailwind @theme mapping */
-@source "../node_modules/@acme/ui/dist"; /* let Tailwind see component classes */
+@import "@petrhendrych/tokens/brands/acme.css"; /* exactly one brand */
+@import "@petrhendrych/tokens/theme.css"; /* Tailwind @theme mapping */
+@source "../node_modules/@petrhendrych/ui/dist"; /* let Tailwind see component classes */
 ```
 
 ```tsx
-import { Button } from "@acme/ui";
+import { Button } from "@petrhendrych/ui";
 
 <html data-theme="dark"> {/* optional; defaults to prefers-color-scheme */}
 ```
@@ -318,8 +332,9 @@ Requires Node 24 (`.nvmrc`) and pnpm 10. No Docker needed. `pnpm install` also b
 
 - **Every PR that changes a package includes a changeset** (`pnpm changeset`). On `main`, the
   Changesets action opens a "Version packages" PR.
-- **Publishing is not wired yet:** the Release workflow only opens the version PR until the real npm
-  scope and registry are chosen.
+- **Merging the Version PR publishes.** With no changesets pending, the Release workflow builds and
+  runs `changeset publish`: every package version not yet in GitHub Packages is published (private,
+  `@petrhendrych` scope) and tagged. It uses the built-in `GITHUB_TOKEN` with `packages: write`.
 - **Pre-1.0 versions (`0.x`):** a minor bump may break the API, and the changeset says so explicitly.
 - **Deprecation:**
   1. Deprecate in a minor release, using all of:

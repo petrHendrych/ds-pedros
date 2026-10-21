@@ -77,7 +77,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@acme/tokens':
+      '@petrhendrych/tokens':
         specifier: workspace:^
         version: link:../tokens
       class-variance-authority:

@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-`@acme` design system: owned shadcn/ui components (Radix) on Tailwind v4, multi-brand DTCG tokens,
+`@petrhendrych` design system: owned shadcn/ui components (Radix) on Tailwind v4, multi-brand DTCG tokens,
 Storybook docs, Playwright visual regression. `README.md` describes the architecture, and
 `docs/superpowers/specs/` holds the decisions behind it. Read both before structural work. When the
 code and the README disagree, ask which one is right.

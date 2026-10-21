@@ -1,4 +1,4 @@
-# @acme/tokens
+# @petrhendrych/tokens
 
 ## 0.1.0
 
