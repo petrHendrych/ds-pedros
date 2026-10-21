@@ -68,3 +68,13 @@ These are implementation choices, not user decisions; revisit freely.
 - Figma integration (Tokens Studio / Variables sync, Code Connect)
 - Storybook PR previews
 - Exact list of first components beyond the starter set
+
+## Amendments (2026-10-21, bootstrap planning)
+
+- **Semantic color names** follow the shadcn vocabulary plus success/warning/info (keeps upstream diffs small). CSS variables are prefixed `--ds-`.
+- **Visual baselines (amends Q8)** are generated only in CI by the "Visual regression" workflow (`update: true`); no local Docker. Local per-OS baselines are gitignored.
+- **Brands (Q3/Q14)** are seeded with `acme` (default) and a demo brand `nova`.
+- **Formatting**: Prettier with prettier-plugin-tailwindcss; better-tailwindcss handles correctness rules, not class order.
+- **A11y lint**: `eslint-plugin-jsx-a11y` does not support ESLint 10; `eslint-plugin-jsx-a11y-x` is used instead.
+- **Versions**: Vitest 5 and Storybook 10.6 (verified together); Changesets stays on v2 and TypeScript on 6 for now.
+- **Publishing** waits for the real npm scope; the Release workflow only opens version PRs.
