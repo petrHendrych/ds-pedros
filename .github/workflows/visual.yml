@@ -1,0 +1,60 @@
+name: Visual regression
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      update:
+        description: Regenerate linux baselines and commit them to this branch
+        type: boolean
+        default: false
+
+concurrency:
+  group: visual-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      # Must match the exact @playwright/test version in packages/ui/package.json.
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @acme/ui build-storybook
+      - name: Compare against baselines
+        if: ${{ !inputs.update }}
+        run: pnpm --filter @acme/ui test:visual
+      - name: Regenerate baselines
+        if: ${{ inputs.update }}
+        run: pnpm --filter @acme/ui test:visual:update
+      - name: Commit baselines
+        if: ${{ inputs.update }}
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/ui/tests/visual/__screenshots__/linux
+          if git diff --cached --quiet; then
+            echo "Baselines unchanged"
+          else
+            git commit -m "test(visual): update linux baselines"
+            git push
+          fi
+      - uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: playwright-report
+          path: packages/ui/playwright-report
+          retention-days: 14
