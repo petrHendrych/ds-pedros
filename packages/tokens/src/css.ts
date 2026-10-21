@@ -75,15 +75,16 @@ ${mappings.join("\n")}
 }
 
 @layer base {
+  /* --ds- variables (not Tailwind's --color-*) so nested [data-theme] subtrees re-resolve. */
   *,
   ::before,
   ::after {
-    border-color: var(--color-border);
+    border-color: var(--ds-color-border);
   }
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
+    background-color: var(--ds-color-background);
+    color: var(--ds-color-foreground);
+    font-family: var(--ds-font-sans);
   }
 }
 `

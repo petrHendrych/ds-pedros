@@ -24,8 +24,15 @@ if (!read("index.d.ts").includes("ButtonProps"))
 if (!USE_CLIENT.test(read("components/button/button.js"))) {
   failures.push('dist/components/button/button.js must start with "use client"')
 }
-if (read("lib/cn.js").includes("use client")) {
-  failures.push('dist/lib/cn.js must stay server-safe (no "use client")')
+// Server Components call variant helpers (e.g. <Link className={buttonVariants()} />), so they must not be client references.
+for (const file of ["lib/cn.js", "components/button/button-variants.js"]) {
+  if (read(file).includes("use client"))
+    failures.push(`dist/${file} must stay server-safe (no "use client")`)
+}
+if (!/from "\.\/components\/button\/button-variants\.js"/.test(index)) {
+  failures.push(
+    "dist/index.js must export buttonVariants from the server-safe button-variants module",
+  )
 }
 
 if (failures.length > 0) {

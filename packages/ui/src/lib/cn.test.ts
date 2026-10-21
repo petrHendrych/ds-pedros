@@ -3,7 +3,9 @@ import { cn } from "./cn"
 
 describe("cn", () => {
   it("joins conditional classes", () => {
-    expect(cn("a", null, undefined, { b: false, c: true })).toBe("a c")
+    expect(
+      cn("flex", null, undefined, { hidden: false, "items-center": true }),
+    ).toBe("flex items-center")
   })
 
   it("lets later token utilities win over conflicting ones", () => {

@@ -38,7 +38,7 @@ export default defineConfig([
     ],
   },
   {
-    files: ["packages/ui/src/**/*.tsx", "packages/ui/.storybook/**/*.tsx"],
+    files: ["packages/ui/src/**/*.{ts,tsx}", "packages/ui/.storybook/**/*.tsx"],
     plugins: { "better-tailwindcss": betterTailwindcss },
     settings: {
       "better-tailwindcss": {

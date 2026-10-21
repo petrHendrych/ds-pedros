@@ -32,4 +32,14 @@ describe("themeCss", () => {
     expect(css).toContain('[data-theme="dark"]')
     expect(css).toContain(':root:not([data-theme="light"])')
   })
+
+  it("styles the base layer from --ds- variables so nested data-theme subtrees re-resolve", async () => {
+    const base =
+      themeCss(await resolveTokens("acme", "light")).split("@layer base")[1] ??
+      ""
+    expect(base).toContain("border-color: var(--ds-color-border);")
+    expect(base).toContain("background-color: var(--ds-color-background);")
+    expect(base).toContain("color: var(--ds-color-foreground);")
+    expect(base).not.toContain("var(--color-")
+  })
 })

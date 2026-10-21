@@ -68,4 +68,19 @@ describe("design-system lint rules", { timeout: 30_000 }, () => {
       await ruleIds(`export const Img = () => <img src="x.png" />\n`),
     ).toContain("jsx-a11y-x/alt-text")
   })
+
+  it("lints class strings in .ts variant modules too", async () => {
+    const [result] = await eslint.lintText(
+      `import { cva } from "class-variance-authority"\nexport const v = cva("bg-[#fff] ml-2")\n`,
+      {
+        filePath: path.join(
+          repoRoot,
+          "packages/ui/src/components/fixture/fixture-variants.ts",
+        ),
+      },
+    )
+    const ids = (result?.messages ?? []).map((message) => message.ruleId)
+    expect(ids).toContain("better-tailwindcss/no-restricted-classes")
+    expect(ids).toContain("better-tailwindcss/enforce-logical-properties")
+  })
 })

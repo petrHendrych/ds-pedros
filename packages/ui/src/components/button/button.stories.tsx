@@ -132,6 +132,39 @@ export const LongLabel: Story = {
   },
 }
 
+export const LongLabelInRow: Story = {
+  args: { children: "Save changes and continue to the payment details step" },
+  render: (args) => (
+    <div className="flex w-60 gap-2">
+      <Button {...args} />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole("button")
+    // Flex rows (card footers, toolbars) must shrink and wrap the label too.
+    await expect(button.getBoundingClientRect().width).toBeLessThanOrEqual(240)
+    await expect(button.scrollWidth).toBeLessThanOrEqual(button.clientWidth)
+  },
+}
+
+export const UnbreakableLabel: Story = {
+  args: { children: "Zahlungsbestätigungsübersichtsseitenaufruf" },
+  render: (args) => (
+    <div className="max-w-60">
+      <Button {...args} />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole("button")
+    await expect(button.getBoundingClientRect().width).toBeLessThanOrEqual(240)
+    await expect(button.scrollWidth).toBeLessThanOrEqual(button.clientWidth)
+  },
+}
+
+export const ShortLabel: Story = {
+  args: { size: "sm", children: "1" },
+}
+
 export const RightToLeft: Story = {
   globals: { dir: "rtl" },
   args: {

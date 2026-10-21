@@ -65,3 +65,19 @@ export const NovaBrand: Story = {
     )
   },
 }
+
+export const NestedTheme: Story = {
+  render: () => (
+    <div data-testid="nested" data-theme="dark" className="border p-4">
+      <ColorSwatches />
+    </div>
+  ),
+  play: async ({ canvas }) => {
+    const nested = canvas.getByTestId("nested")
+    // Plain `border` inside a dark subtree must use the dark border token, not the page's.
+    await expect(getComputedStyle(nested).borderTopColor).toBe(
+      cssVar(nested, "--ds-color-border"),
+    )
+    await expect(cssVar(nested, "--ds-color-border")).toBe("oklch(0.269 0 0)")
+  },
+}
