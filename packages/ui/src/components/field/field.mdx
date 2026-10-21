@@ -1,0 +1,41 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks"
+
+import * as FieldStories from "./field.stories"
+
+<Meta of={FieldStories} name="Usage" />
+
+# Field
+
+Groups a label, one control, an optional description and an optional error, and wires them
+together for assistive technology.
+
+<Canvas of={FieldStories.Invalid} />
+
+```tsx
+<Field invalid={!!errors.email}>
+  <FieldLabel>Email</FieldLabel>
+  <FieldControl>
+    <Input type="email" />
+  </FieldControl>
+  <FieldDescription>We only use it for receipts.</FieldDescription>
+  <FieldError errors={[errors.email]} />
+</Field>
+```
+
+## What Field does for you
+
+- Generates ids: `FieldLabel` gets `htmlFor`, the control gets `id`.
+- `FieldControl` sets `aria-describedby` to the description and error that are rendered, plus
+  `aria-invalid` and `disabled` from the Field's `invalid` / `disabled` props.
+- `FieldError` uses `role="alert"`, accepts children or an `errors` array (react-hook-form style),
+  shows duplicates once and renders nothing when there is no error.
+
+## Do
+
+- Put exactly one control inside `FieldControl`, and do not give it its own `id`.
+- Stack fields with `FieldGroup`.
+
+## Accessibility
+
+- The Field is a `role="group"`; an invalid Field colors its label with the destructive token.
+- Errors are announced when they appear and stay linked to the control afterwards.
