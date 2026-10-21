@@ -2,8 +2,8 @@ import "@fontsource-variable/inter"
 import "@fontsource-variable/geist"
 import "./preview.css"
 
-import acmeCss from "@acme/tokens/brands/acme.css?inline"
-import novaCss from "@acme/tokens/brands/nova.css?inline"
+import acmeCss from "@petrhendrych/tokens/brands/acme.css?inline"
+import novaCss from "@petrhendrych/tokens/brands/nova.css?inline"
 import type { Decorator, Preview } from "@storybook/react-vite"
 
 const BRAND_CSS = { acme: acmeCss, nova: novaCss }

@@ -1,4 +1,4 @@
 @import "tailwindcss";
-@import "@acme/tokens/theme.css";
+@import "@petrhendrych/tokens/theme.css";
 
 @source "../src";

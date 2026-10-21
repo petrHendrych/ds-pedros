@@ -78,3 +78,10 @@ These are implementation choices, not user decisions; revisit freely.
 - **A11y lint**: `eslint-plugin-jsx-a11y` does not support ESLint 10; `eslint-plugin-jsx-a11y-x` is used instead.
 - **Versions**: Vitest 5 and Storybook 10.6 (verified together); Changesets stays on v2 and TypeScript on 6 for now.
 - **Publishing** waits for the real npm scope; the Release workflow only opens version PRs.
+
+## Amendments (2026-10-21, publishing)
+
+- **Q1/Q16 resolved:** packages are published to **GitHub Packages** as private packages under the
+  `@petrhendrych` scope (`@petrhendrych/tokens`, `@petrhendrych/ui`); GitHub Packages requires the
+  scope to match the repository owner. The Release workflow publishes with `GITHUB_TOKEN`. The repo
+  itself is public (for GitHub Pages), so package privacy limits installation, not source access.

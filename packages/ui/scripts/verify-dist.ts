@@ -69,4 +69,4 @@ if (failures.length > 0) {
   console.error(failures.join("\n"))
   process.exit(1)
 }
-console.log("@acme/ui dist OK")
+console.log("@petrhendrych/ui dist OK")

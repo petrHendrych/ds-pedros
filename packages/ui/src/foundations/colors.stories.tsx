@@ -1,4 +1,4 @@
-import { tokens } from "@acme/tokens"
+import { tokens } from "@petrhendrych/tokens"
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { expect } from "storybook/test"
 

@@ -1,8 +1,13 @@
 {
-  "name": "@acme/tokens",
+  "name": "@petrhendrych/tokens",
   "version": "0.1.0",
   "type": "module",
   "description": "Acme design tokens (W3C DTCG) compiled to brand CSS variables, a Tailwind v4 theme and TS constants.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petrHendrych/ds-test.git",
+    "directory": "packages/tokens"
+  },
   "files": [
     "dist"
   ],
@@ -19,7 +24,8 @@
     "./package.json": "./package.json"
   },
   "publishConfig": {
-    "access": "restricted"
+    "access": "restricted",
+    "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
     "build": "node scripts/build.ts",

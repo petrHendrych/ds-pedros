@@ -24,8 +24,8 @@ jobs:
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm typecheck
-      - run: pnpm --filter @acme/ui exec playwright install --with-deps chromium
+      - run: pnpm --filter @petrhendrych/ui exec playwright install --with-deps chromium
       - run: pnpm test
       - run: pnpm build
-      - run: pnpm --filter @acme/ui verify:dist
-      - run: pnpm --filter @acme/tokens verify:dist
+      - run: pnpm --filter @petrhendrych/ui verify:dist
+      - run: pnpm --filter @petrhendrych/tokens verify:dist

@@ -1,4 +1,4 @@
-# @acme/ui
+# @petrhendrych/ui
 
 ## 0.1.0
 
@@ -10,4 +10,4 @@
 ### Patch Changes
 
 - Updated dependencies [57efb43]
-  - @acme/tokens@0.1.0
+  - @petrhendrych/tokens@0.1.0

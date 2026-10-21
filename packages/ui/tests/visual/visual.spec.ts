@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs"
 import path from "node:path"
-import { brands } from "@acme/tokens"
+import { brands } from "@petrhendrych/tokens"
 import AxeBuilder from "@axe-core/playwright"
 import { expect, test, type Page } from "@playwright/test"
 import { cellName, cellsFor } from "./matrix"

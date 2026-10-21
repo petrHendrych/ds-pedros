@@ -27,4 +27,4 @@ const { js, dts } = tokensModule(reference, brands)
 writeFileSync(path.join(dist, "index.js"), js)
 writeFileSync(path.join(dist, "index.d.ts"), dts)
 
-console.log(`@acme/tokens: built ${brands.length} brands into dist/`)
+console.log(`@petrhendrych/tokens: built ${brands.length} brands into dist/`)

@@ -9,9 +9,10 @@ concurrency: release-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
+  packages: write
 
 jobs:
-  version:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -23,12 +24,19 @@ jobs:
         with:
           node-version-file: .nvmrc
           cache: pnpm
+          # Writes an .npmrc that sends @petrhendrych/* to GitHub Packages with NODE_AUTH_TOKEN.
+          registry-url: https://npm.pkg.github.com
+          scope: "@petrhendrych"
       - run: pnpm install --frozen-lockfile
-      # Opens or updates the "Version packages" PR. Publishing is added once the real npm scope exists.
+      # With pending changesets: opens or updates the "Version packages" PR.
+      # Without: publishes every package version that is not in the registry yet, and tags it.
       - uses: changesets/action@v1
         with:
           version: pnpm version-packages
+          publish: pnpm release
           commit: "chore: version packages"
           title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN || secrets.GITHUB_TOKEN }}
+          # The built-in token can publish packages linked to this repository.
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
