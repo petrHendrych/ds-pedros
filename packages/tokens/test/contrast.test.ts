@@ -18,6 +18,8 @@ const TEXT_PAIRS = [
   ["info-foreground", "info"],
   ["primary", "background"],
   ["destructive", "background"],
+  ["success", "background"],
+  ["info", "background"],
 ] as const
 
 const NON_TEXT_PAIRS = [

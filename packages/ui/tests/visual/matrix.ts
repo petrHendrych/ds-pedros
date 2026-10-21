@@ -1,4 +1,4 @@
-export const DEFAULT_BRAND = "acme"
+export const DEFAULT_BRAND = "pedros"
 export const VR_WIDTHS = [360, 768, 1280, 1536] as const
 const THEMES = ["light", "dark"] as const
 
