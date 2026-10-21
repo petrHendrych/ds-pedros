@@ -1,6 +1,6 @@
 {
   "name": "@acme/ui",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "Acme React components: owned shadcn/ui on Radix, styled with @acme/tokens.",
   "files": [
