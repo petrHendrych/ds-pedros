@@ -12,18 +12,19 @@ on:
         default: false
 
 concurrency:
-  group: visual-${{ github.ref }}
+  group: visual-${{ github.ref }}-${{ inputs.update || false }}
   cancel-in-progress: true
 
 jobs:
-  visual:
+  compare:
+    if: ${{ !inputs.update }}
     runs-on: ubuntu-latest
     container:
       # Must match the exact @playwright/test version in packages/ui/package.json.
       image: mcr.microsoft.com/playwright:v1.64.1-noble
       options: --user 1001
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v5
       - uses: pnpm/action-setup@v4
@@ -33,14 +34,36 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @acme/ui build-storybook
-      - name: Compare against baselines
-        if: ${{ !inputs.update }}
-        run: pnpm --filter @acme/ui test:visual
-      - name: Regenerate baselines
-        if: ${{ inputs.update }}
-        run: pnpm --filter @acme/ui test:visual:update
+      - run: pnpm --filter @acme/ui test:visual
+      - uses: actions/upload-artifact@v4
+        if: ${{ failure() }}
+        with:
+          name: playwright-report
+          path: packages/ui/playwright-report
+          retention-days: 14
+
+  update:
+    if: ${{ inputs.update }}
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --user 1001
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @acme/ui build-storybook
+      - run: pnpm --filter @acme/ui test:visual:update
       - name: Commit baselines
-        if: ${{ inputs.update }}
+        id: commit
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
           git config user.name "github-actions[bot]"
@@ -48,13 +71,23 @@ jobs:
           git add packages/ui/tests/visual/__screenshots__/linux
           if git diff --cached --quiet; then
             echo "Baselines unchanged"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git commit -m "test(visual): update linux baselines"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-      - uses: actions/upload-artifact@v4
-        if: ${{ failure() }}
-        with:
-          name: playwright-report
-          path: packages/ui/playwright-report
-          retention-days: 14
+
+  # Pushes made with GITHUB_TOKEN do not start workflows, but workflow_dispatch does:
+  # re-run CI and the comparison on the commit that now carries the baselines.
+  retrigger:
+    needs: update
+    if: ${{ needs.update.outputs.changed == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - run: gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME"
+      - run: gh workflow run visual.yml --repo "$GITHUB_REPOSITORY" --ref "$GITHUB_REF_NAME" -f update=false

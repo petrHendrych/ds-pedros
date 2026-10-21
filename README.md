@@ -247,10 +247,29 @@ Fonts and anti-aliasing differ between macOS, Windows and Linux, so baselines ar
 
 - Committed baselines live in `tests/visual/__screenshots__/linux/` and are produced **only by CI**
   in the official Playwright image. To create or update them, run the **Visual regression**
-  workflow on your branch with `update: true`; it commits the new baselines.
+  workflow on your branch with `update: true` (Actions tab, or
+  `gh workflow run visual.yml --ref <branch> -f update=true`). It commits the new baselines and then
+  re-runs CI and the comparison on that commit.
+- A new story has no baseline yet, so its first comparison fails; run the update on the PR branch.
 - Locally, `pnpm test:visual` compares against your own `darwin/` (or `win32/`) baselines, which
   are gitignored. Create them with `pnpm --filter @acme/ui test:visual:update`.
 - Fonts are loaded from local files and animations are disabled.
+
+## Repository setup (one-time, on GitHub)
+
+1. **Actions → General → Workflow permissions:** enable "Allow GitHub Actions to create and approve
+   pull requests" (the Release workflow opens the Version PR).
+2. **Pages → Source:** "GitHub Actions" (the Storybook workflow deploys there). Pages on a
+   **private** repository needs a paid GitHub plan; on a free plan the Storybook workflow fails at
+   deploy until the repo is public or the plan changes.
+3. **Optional `CHANGESETS_TOKEN` secret** (fine-grained PAT or GitHub App token with contents and
+   pull-requests write): PRs opened with the default `GITHUB_TOKEN` do not trigger CI, so without it
+   close and reopen the Version PR to get checks.
+4. **First baselines.** `workflow_dispatch` is only available once a workflow exists on `main`, so:
+   merge the bootstrap PR without requiring "Visual regression" (its comparison fails while no
+   baselines exist), run the Visual regression workflow on `main` with `update: true`, then turn on
+   branch protection for `main` requiring **CI** and **Visual regression**. From then on, run the
+   update on PR branches.
 
 ## Using the packages
 
