@@ -34,3 +34,12 @@ test("icon buttons offer a 44×44px target on coarse pointers", async ({
   expect(box?.height).toBeGreaterThanOrEqual(44)
   expect(box?.width).toBeGreaterThanOrEqual(44)
 })
+
+test("inputs offer a 44px target on coarse pointers", async ({
+  page,
+}, testInfo) => {
+  test.skip(!testInfo.project.use.hasTouch, "touch profiles only")
+  await page.goto("/iframe.html?id=components-input--default&viewMode=story")
+  const box = await page.getByRole("textbox", { name: "Email" }).boundingBox()
+  expect(box?.height).toBeGreaterThanOrEqual(44)
+})

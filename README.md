@@ -356,4 +356,4 @@ A component is done when:
 8. ✅ ESLint additions (`jsx-a11y-x`, `storybook`, `better-tailwindcss`)
 9. ✅ GitHub Actions: lint, typecheck, test, VR, Storybook deploy to Pages
 10. ✅ Changesets (publishing waits for the real npm scope)
-11. First components: Button ✅; next: Input, Label, Card, Dialog, then grow by demand
+11. First components: Button ✅, Input ✅, Label ✅, Field ✅, Card ✅; next: Dialog, then grow by demand
