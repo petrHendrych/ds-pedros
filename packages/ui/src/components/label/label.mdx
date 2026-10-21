@@ -1,0 +1,21 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks"
+
+import * as LabelStories from "./label.stories"
+
+<Meta of={LabelStories} name="Usage" />
+
+# Label
+
+Names a form control. Inside a Field, use `FieldLabel`, which connects itself to the control.
+
+<Canvas of={LabelStories.WithInput} />
+
+## Do
+
+- Point `htmlFor` at the control's `id` when you use Label on its own.
+- Keep labels short and visible; placeholders are not labels.
+
+## Accessibility
+
+- Native `<label>` via Radix Label; clicking it focuses the control.
+- Dims with a disabled sibling control (`peer`) or inside a disabled Field.

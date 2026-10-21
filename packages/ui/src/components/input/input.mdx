@@ -1,0 +1,31 @@
+import { Canvas, Controls, Meta } from "@storybook/addon-docs/blocks"
+
+import * as InputStories from "./input.stories"
+
+<Meta of={InputStories} name="Usage" />
+
+# Input
+
+A single-line text control. Wrap it in a [Field](?path=/docs/components-field--usage) to get a
+label, description and error message wired up for screen readers.
+
+<Canvas of={InputStories.Placeholder} />
+<Controls of={InputStories.Default} />
+
+## Do
+
+- Give every input a visible label (use Field), or an `aria-label` when the purpose is visually obvious.
+- Use the right `type` and `autoComplete` so phones show the right keyboard and autofill works.
+- Mark errors with `aria-invalid` (Field does this through its `invalid` prop).
+- Let the input fill its container; constrain width on the container.
+
+## Accessibility
+
+| Key   | Action                   |
+| ----- | ------------------------ |
+| `Tab` | Moves focus to the input |
+
+- Native `<input>`; renders in Server Components (no `"use client"`).
+- Focus shows a 2px `ring` outline (destructive when invalid) that stays visible in forced-colors mode.
+- Text is 16px on small screens so iOS does not zoom in on focus; 14px from `md` up.
+- On touch devices the input is at least 44px tall.
