@@ -16,9 +16,12 @@
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm tokens:build && pnpm -r test",
     "storybook": "pnpm tokens:build && pnpm --filter @acme/ui storybook",
-    "test:visual": "pnpm tokens:build && pnpm --filter @acme/ui build-storybook && pnpm --filter @acme/ui test:visual"
+    "test:visual": "pnpm tokens:build && pnpm --filter @acme/ui build-storybook && pnpm --filter @acme/ui test:visual",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.1",
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.2",
     "eslint": "^10.13.0",
