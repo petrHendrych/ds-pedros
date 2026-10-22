@@ -1,5 +1,11 @@
 # @petrhendrych/tokens
 
+## 0.2.1
+
+### Patch Changes
+
+- a865aaf: Replace the leftover "Acme" in the package descriptions with "ds-pedros".
+
 ## 0.2.0
 
 ### Minor Changes

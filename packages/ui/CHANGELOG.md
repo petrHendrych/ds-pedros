@@ -1,5 +1,22 @@
 # @petrhendrych/ui
 
+## 0.2.0
+
+### Minor Changes
+
+- ffed46b: Add `isLoading` to Button. It shows a spinner before the label (replacing the icon on icon sizes), sets
+  `aria-busy` and `aria-disabled`, and ignores clicks and form submission while keeping focus. It can't
+  be combined with `asChild`, which is a type error.
+
+### Patch Changes
+
+- 5d8587d: Button, Input and Label use the `disabled`, `disabled-foreground` and `disabled-border` tokens for
+  their disabled state instead of 50% opacity. Buttons show a pointer cursor (a not-allowed cursor when
+  disabled), and the file input's "Choose file" button shows a pointer cursor.
+- a865aaf: Replace the leftover "Acme" in the package descriptions with "ds-pedros".
+- Updated dependencies [a865aaf]
+  - @petrhendrych/tokens@0.2.1
+
 ## 0.1.1
 
 ### Patch Changes
