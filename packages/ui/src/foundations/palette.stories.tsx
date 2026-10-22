@@ -51,40 +51,61 @@ const subscribe = () => () => {}
 
 function Palette() {
   const ramps = useSyncExternalStore(subscribe, snapshot, () => noRamps)
+  const columns = [
+    ...new Set(ramps.flatMap((ramp) => ramp.steps.map(({ step }) => step))),
+  ].sort((a, b) => Number(a) - Number(b))
 
+  // A swatch grid with values in tooltips keeps the text-node count low: axe's contrast check
+  // walks every text node, once per visual-regression cell, and a label per swatch timed out CI.
+  // Names sit on their own row and the layout is fixed, so the grid never overflows at 360px.
   return (
-    <div className="@container flex flex-col gap-8">
+    <table className="w-full table-fixed border-separate border-spacing-1">
+      <caption className="sr-only">Primitive color ramps</caption>
+      <thead>
+        <tr>
+          {columns.map((step) => (
+            <th
+              key={step}
+              scope="col"
+              className="font-mono text-xs font-normal text-muted-foreground"
+            >
+              {step}
+            </th>
+          ))}
+        </tr>
+      </thead>
       {ramps.map((ramp) => (
-        <section key={ramp.name} aria-labelledby={`ramp-${ramp.name}`}>
-          <h2
-            id={`ramp-${ramp.name}`}
-            className="mb-3 font-mono text-sm font-medium text-foreground"
-          >
-            {ramp.name}
-          </h2>
-          <ul
-            aria-label={ramp.name}
-            className="grid grid-cols-3 gap-3 @md:grid-cols-6 @4xl:grid-cols-12"
-          >
-            {ramp.steps.map(({ step, variable, value }) => (
-              <li key={step} className="flex min-w-0 flex-col gap-1">
-                <span
-                  aria-hidden
-                  className="h-control-lg rounded-md border"
-                  style={{ backgroundColor: `var(${variable})` }}
-                />
-                <span className="font-mono text-xs text-foreground">
-                  {step}
-                </span>
-                <span className="font-mono text-xs break-all text-muted-foreground">
-                  {value}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
+        <tbody key={ramp.name}>
+          <tr>
+            <th
+              scope="rowgroup"
+              colSpan={columns.length}
+              className="pt-3 text-start font-mono text-sm font-medium text-foreground"
+            >
+              {ramp.name}
+            </th>
+          </tr>
+          <tr>
+            {columns.map((step) => {
+              const swatch = ramp.steps.find((entry) => entry.step === step)
+              return (
+                <td
+                  key={step}
+                  title={swatch && `${ramp.name}-${step}: ${swatch.value}`}
+                >
+                  {swatch && (
+                    <span
+                      className="block h-control-lg rounded-md border"
+                      style={{ backgroundColor: `var(${swatch.variable})` }}
+                    />
+                  )}
+                </td>
+              )
+            })}
+          </tr>
+        </tbody>
       ))}
-    </div>
+    </table>
   )
 }
 
@@ -98,10 +119,13 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   play: async ({ canvas }) => {
-    const gold = await canvas.findByRole("list", { name: "sunflower-gold" })
-    await expect(gold.querySelectorAll("li")).toHaveLength(11)
+    const swatches = async (name: string) =>
+      (await canvas.findByRole("rowheader", { name }))
+        .closest("tbody")
+        ?.querySelectorAll("td[title]").length
+    await expect(await swatches("sunflower-gold")).toBe(11)
     for (const name of ["success", "error", "warning", "info"]) {
-      await expect(canvas.getByRole("list", { name })).toBeInTheDocument()
+      await expect(await swatches(name)).toBe(11)
     }
   },
 }
