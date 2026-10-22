@@ -4,6 +4,7 @@
  * Deviations:
  *  - `cn` comes from ../../lib/cn, not the `cn` package
  *  - disabled-field dimming keys off Field's `data-disabled` attribute (no arbitrary `[disabled=true]` variant)
+ *  - disabled dimming uses `text-disabled-foreground` instead of `opacity-50`, matching disabled controls
  */
 "use client"
 
@@ -20,7 +21,7 @@ function Label({
     <LabelPrimitive.Root
       data-slot="label"
       className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-disabled/field:pointer-events-none group-data-disabled/field:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
+        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-disabled/field:pointer-events-none group-data-disabled/field:text-disabled-foreground peer-disabled:cursor-not-allowed peer-disabled:text-disabled-foreground",
         className,
       )}
       {...props}

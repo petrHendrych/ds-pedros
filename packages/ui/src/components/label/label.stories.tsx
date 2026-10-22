@@ -40,8 +40,12 @@ export const DisabledPeer: Story = {
     </div>
   ),
   play: async ({ canvas }) => {
-    await expect(getComputedStyle(canvas.getByText("Email")).opacity).toBe(
-      "0.5",
+    const label = canvas.getByText("Email")
+    await expect(getComputedStyle(label).opacity).toBe("1")
+    await expect(getComputedStyle(label).color).toBe(
+      getComputedStyle(label)
+        .getPropertyValue("--ds-color-disabled-foreground")
+        .trim(),
     )
   },
 }

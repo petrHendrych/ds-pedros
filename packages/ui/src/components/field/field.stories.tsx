@@ -95,6 +95,12 @@ export const Disabled: Story = {
     await expect(canvas.getByLabelText("Email")).toBeDisabled()
     const field = canvasElement.querySelector("[data-slot=field]")
     await expect(field).toHaveAttribute("data-disabled")
+    const label = canvas.getByText("Email")
+    await expect(getComputedStyle(label).color).toBe(
+      getComputedStyle(label)
+        .getPropertyValue("--ds-color-disabled-foreground")
+        .trim(),
+    )
   },
 }
 

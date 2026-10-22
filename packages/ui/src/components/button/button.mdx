@@ -18,6 +18,16 @@ Triggers an action in place. For navigation, render a link with `asChild`.
 - Let long labels wrap; the button grows in height.
 - Navigate with `<Button asChild><a href="…">…</a></Button>`.
 - Change appearance through a variant or a token.
+- Set `isLoading` while an action runs; keep the label (e.g. "Saving") so the button keeps its name.
+
+## Loading
+
+<Canvas of={ButtonStories.LoadingVariants} />
+
+`isLoading` shows a spinner before the label (it replaces the icon on icon sizes), sets
+`aria-busy` and `aria-disabled`, and ignores clicks, including form submission. It does not set the
+native `disabled` attribute, so a button that starts loading after a click keeps keyboard focus.
+Links (`asChild`) have no loading state.
 
 ## Accessibility
 
@@ -26,6 +36,9 @@ Triggers an action in place. For navigation, render a link with `asChild`.
 | `Tab`             | Moves focus to the button |
 | `Enter` / `Space` | Activates the button      |
 
-- Renders a native `<button type="button">`; disabled buttons use the native `disabled` attribute.
+- Renders a native `<button type="button">`; disabled buttons use the native `disabled` attribute,
+  the `disabled` color tokens and a not-allowed cursor.
+- Loading buttons stay focusable and announce `aria-busy="true"`; the spinner is decorative and
+  stays still under reduced motion.
 - Focus shows a 2px `ring` outline that stays visible in forced-colors mode.
 - On touch devices the target is at least 44×44px.
