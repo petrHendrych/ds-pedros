@@ -1,6 +1,6 @@
 {
   "name": "@petrhendrych/tokens",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "ds-pedros design tokens (W3C DTCG) compiled to brand CSS variables, a Tailwind v4 theme and TS constants.",
   "repository": {
