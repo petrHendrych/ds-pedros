@@ -14,6 +14,8 @@
  *  - disabled uses the `disabled` color tokens per variant instead of `opacity-50`, and keeps pointer
  *    events (no `pointer-events-none`) so the not-allowed cursor shows; disabled colors outrank hover
  *  - `buttonVariants` lives in the directive-free ./button-variants so Server Components can call it
+ *  - `isLoading` (not upstream): spinner before the label (replacing the icon on icon sizes),
+ *    `aria-busy` + `aria-disabled` and swallowed clicks, so focus stays put; not available with `asChild`
  */
 "use client"
 
@@ -23,31 +25,71 @@ import { Slot } from "radix-ui"
 
 import { cn } from "../../lib/cn"
 import { buttonVariants } from "./button-variants"
+import { Spinner } from "./spinner"
+
+const ICON_SIZES = new Set(["icon-sm", "icon", "icon-lg"])
 
 type ButtonProps = ComponentProps<"button"> &
-  VariantProps<typeof buttonVariants> & {
-    /** Render the child element (e.g. a link) with button styles instead of a <button>. */
-    asChild?: boolean
-  }
+  VariantProps<typeof buttonVariants> &
+  (
+    | {
+        /** Render the child element (e.g. a link) with button styles instead of a <button>. */
+        asChild?: false
+        /** Shows a spinner and blocks clicks while keeping focus (`aria-disabled`, not `disabled`). */
+        isLoading?: boolean
+      }
+    | {
+        asChild: true
+        /** A link can't be disabled, and Slot renders a single child, so links have no loading state. */
+        isLoading?: never
+      }
+  )
 
 function Button({
   className,
   variant,
   size,
   asChild = false,
-  type,
+  isLoading = false,
+  onClick,
+  children,
+  "aria-disabled": ariaDisabled,
   ...props
 }: ButtonProps) {
-  const Comp = asChild ? Slot.Root : "button"
+  const shared = {
+    "data-slot": "button",
+    "data-variant": variant ?? "default",
+    "data-size": size ?? "md",
+    className: cn(buttonVariants({ variant, size }), className),
+  }
+
+  if (asChild) {
+    return (
+      <Slot.Root
+        {...shared}
+        onClick={onClick}
+        aria-disabled={ariaDisabled}
+        {...props}
+      >
+        {children}
+      </Slot.Root>
+    )
+  }
+
   return (
-    <Comp
-      data-slot="button"
-      data-variant={variant ?? "default"}
-      data-size={size ?? "md"}
-      type={asChild ? type : (type ?? "button")}
-      className={cn(buttonVariants({ variant, size }), className)}
+    <button
+      {...shared}
       {...props}
-    />
+      type={props.type ?? "button"}
+      data-loading={isLoading || undefined}
+      aria-busy={isLoading || undefined}
+      aria-disabled={isLoading || ariaDisabled}
+      // preventDefault also stops a loading submit button from submitting its form again.
+      onClick={isLoading ? (event) => event.preventDefault() : onClick}
+    >
+      {isLoading && <Spinner />}
+      {isLoading && size && ICON_SIZES.has(size) ? null : children}
+    </button>
   )
 }
 

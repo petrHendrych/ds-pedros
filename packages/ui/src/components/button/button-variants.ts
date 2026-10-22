@@ -3,7 +3,7 @@ import { cva } from "class-variance-authority"
 // Kept out of button.tsx so Server Components can call it (e.g. <Link className={buttonVariants()} />):
 // everything exported from a "use client" module becomes a client reference.
 export const buttonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-transparent text-center text-sm font-medium wrap-anywhere transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-not-allowed disabled:text-disabled-foreground aria-invalid:border-destructive pointer-coarse:min-h-touch pointer-coarse:min-w-touch [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-md border border-transparent text-center text-sm font-medium wrap-anywhere transition-colors outline-none select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring focus-visible:outline-solid disabled:cursor-not-allowed disabled:text-disabled-foreground aria-invalid:border-destructive data-loading:cursor-progress pointer-coarse:min-h-touch pointer-coarse:min-w-touch [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {

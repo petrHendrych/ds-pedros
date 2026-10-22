@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
 import { ArrowRight, Plus } from "lucide-react"
+import { useState } from "react"
 import { expect, fn, userEvent } from "storybook/test"
 
 import { Button } from "./button"
@@ -125,6 +126,104 @@ export const DisabledVariants: Story = {
   },
 }
 
+export const Loading: Story = {
+  args: { isLoading: true, children: "Saving" },
+  play: async ({ args, canvas }) => {
+    const button = canvas.getByRole("button", { name: "Saving" })
+    await expect(button).toHaveAttribute("aria-busy", "true")
+    await expect(button).toHaveAttribute("aria-disabled", "true")
+    // aria-disabled, not native disabled: the button stays focusable while it loads.
+    await expect(button).toBeEnabled()
+    await expect(button.querySelector("svg[data-slot=spinner]")).toBeVisible()
+    await expect(getComputedStyle(button).cursor).toBe("progress")
+    await userEvent.click(button)
+    await expect(args.onClick).not.toHaveBeenCalled()
+  },
+}
+
+export const LoadingVariants: Story = {
+  args: { isLoading: true },
+  render: Variants.render,
+  play: async ({ canvas }) => {
+    for (const variant of VARIANTS) {
+      const button = canvas.getByRole("button", { name: variant })
+      await expect(button).toHaveAttribute("aria-busy", "true")
+      // Loading keeps the variant's colors; only disabled buttons turn grey.
+      await expect(getComputedStyle(button).color).not.toBe(
+        token(button, "disabled-foreground"),
+      )
+    }
+  },
+}
+
+export const LoadingIconOnly: Story = {
+  args: {
+    size: "icon",
+    isLoading: true,
+    "aria-label": "Add item",
+    children: <Plus aria-hidden />,
+  },
+  play: async ({ canvas }) => {
+    const button = canvas.getByRole("button", { name: "Add item" })
+    // The spinner replaces the icon instead of squeezing in beside it.
+    await expect(button.querySelectorAll("svg")).toHaveLength(1)
+    await expect(button.querySelector("svg[data-slot=spinner]")).toBeVisible()
+  },
+}
+
+function SaveButton() {
+  const [isLoading, setIsLoading] = useState(false)
+  return (
+    <Button isLoading={isLoading} onClick={() => setIsLoading(true)}>
+      {isLoading ? "Saving" : "Save"}
+    </Button>
+  )
+}
+
+export const LoadingKeepsFocus: Story = {
+  render: () => <SaveButton />,
+  play: async ({ canvas }) => {
+    await userEvent.tab()
+    await userEvent.keyboard("{Enter}")
+    const button = canvas.getByRole("button", { name: "Saving" })
+    await expect(button).toHaveAttribute("aria-busy", "true")
+    await expect(button).toHaveFocus()
+  },
+}
+
+const formSubmitted = fn()
+
+export const LoadingSubmit: Story = {
+  args: { type: "submit", isLoading: true, children: "Sending" },
+  render: (args) => (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault()
+        formSubmitted()
+      }}
+    >
+      <Button {...args} />
+    </form>
+  ),
+  play: async ({ canvas }) => {
+    await userEvent.click(canvas.getByRole("button", { name: "Sending" }))
+    // A loading submit button must not submit the form a second time.
+    await expect(formSubmitted).not.toHaveBeenCalled()
+  },
+}
+
+export const LoadingRightToLeft: Story = {
+  globals: { dir: "rtl" },
+  args: { isLoading: true, children: "جارٍ الحفظ" },
+}
+
+export const LoadingDark: Story = {
+  tags: ["no-vr"],
+  globals: { theme: "dark" },
+  args: { isLoading: true },
+  render: Variants.render,
+}
+
 export const Keyboard: Story = {
   play: async ({ args, canvas }) => {
     const button = canvas.getByRole("button")
@@ -137,8 +236,9 @@ export const Keyboard: Story = {
 }
 
 export const AsLink: Story = {
-  render: (args) => (
-    <Button {...args} asChild>
+  // No args spread: links have no loading state, and `isLoading` is a type error with asChild.
+  render: () => (
+    <Button asChild>
       <a href="#usage">Read the usage guide</a>
     </Button>
   ),
