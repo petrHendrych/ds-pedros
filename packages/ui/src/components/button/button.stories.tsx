@@ -13,6 +13,11 @@ const VARIANTS = [
   "link",
 ] as const
 const SIZES = ["sm", "md", "lg"] as const
+const FILLED = new Set(["default", "secondary", "destructive"])
+
+/** A semantic color token's value, for comparing against computed styles. */
+const token = (element: Element, name: string) =>
+  getComputedStyle(element).getPropertyValue(`--ds-color-${name}`).trim()
 
 const meta = {
   title: "Components/Button",
@@ -35,6 +40,7 @@ export const Default: Story = {
   play: async ({ args, canvas }) => {
     const button = canvas.getByRole("button", { name: "Button" })
     await expect(button).toHaveAttribute("type", "button")
+    await expect(getComputedStyle(button).cursor).toBe("pointer")
     await userEvent.click(button)
     await expect(args.onClick).toHaveBeenCalledOnce()
   },
@@ -89,7 +95,33 @@ export const IconOnly: Story = {
 export const Disabled: Story = {
   args: { disabled: true },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole("button")).toBeDisabled()
+    const button = canvas.getByRole("button")
+    await expect(button).toBeDisabled()
+    const style = getComputedStyle(button)
+    await expect(style.cursor).toBe("not-allowed")
+    await expect(style.opacity).toBe("1")
+    await expect(style.backgroundColor).toBe(token(button, "disabled"))
+    await expect(style.color).toBe(token(button, "disabled-foreground"))
+  },
+}
+
+export const DisabledVariants: Story = {
+  args: { disabled: true },
+  render: Variants.render,
+  play: async ({ canvas }) => {
+    for (const variant of VARIANTS) {
+      const button = canvas.getByRole("button", { name: variant })
+      const style = getComputedStyle(button)
+      await expect(style.color).toBe(token(button, "disabled-foreground"))
+      if (FILLED.has(variant)) {
+        await expect(style.backgroundColor).toBe(token(button, "disabled"))
+      }
+      if (variant === "outline") {
+        await expect(style.borderTopColor).toBe(
+          token(button, "disabled-border"),
+        )
+      }
+    }
   },
 }
 
@@ -114,6 +146,7 @@ export const AsLink: Story = {
     const link = canvas.getByRole("link", { name: "Read the usage guide" })
     await expect(link).not.toHaveAttribute("type")
     await expect(link).toHaveAttribute("data-slot", "button")
+    await expect(getComputedStyle(link).cursor).toBe("pointer")
   },
 }
 

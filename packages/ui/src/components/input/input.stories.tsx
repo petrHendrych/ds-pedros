@@ -3,6 +3,10 @@ import { expect, userEvent } from "storybook/test"
 
 import { Input } from "./input"
 
+/** A semantic color token's value, for comparing against computed styles. */
+const token = (element: Element, name: string) =>
+  getComputedStyle(element).getPropertyValue(`--ds-color-${name}`).trim()
+
 const meta = {
   title: "Components/Input",
   component: Input,
@@ -29,7 +33,14 @@ export const Placeholder: Story = {
 export const Disabled: Story = {
   args: { disabled: true, defaultValue: "ada@example.com" },
   play: async ({ canvas }) => {
-    await expect(canvas.getByRole("textbox")).toBeDisabled()
+    const input = canvas.getByRole("textbox")
+    await expect(input).toBeDisabled()
+    const style = getComputedStyle(input)
+    await expect(style.cursor).toBe("not-allowed")
+    await expect(style.opacity).toBe("1")
+    await expect(style.backgroundColor).toBe(token(input, "disabled"))
+    await expect(style.color).toBe(token(input, "disabled-foreground"))
+    await expect(style.borderTopColor).toBe(token(input, "disabled-border"))
   },
 }
 
@@ -46,6 +57,13 @@ export const Invalid: Story = {
 
 export const File: Story = {
   args: { type: "file", "aria-label": "Attachment" },
+  play: async ({ canvasElement }) => {
+    const input = canvasElement.querySelector("input[type=file]")
+    if (!input) throw new Error("file input did not render")
+    await expect(getComputedStyle(input, "::file-selector-button").cursor).toBe(
+      "pointer",
+    )
+  },
 }
 
 export const NarrowContainer: Story = {

@@ -10,6 +10,9 @@
  *  - no `dark:` overrides and no arbitrary values: themes and brands come entirely from tokens
  *  - destructive is a solid fill with `destructive-foreground` text
  *  - `type="button"` by default so buttons never submit forms by accident
+ *  - `cursor-pointer` (Tailwind v4 preflight resets buttons to the default cursor)
+ *  - disabled uses the `disabled` color tokens per variant instead of `opacity-50`, and keeps pointer
+ *    events (no `pointer-events-none`) so the not-allowed cursor shows; disabled colors outrank hover
  *  - `buttonVariants` lives in the directive-free ./button-variants so Server Components can call it
  */
 "use client"
