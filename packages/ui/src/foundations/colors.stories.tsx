@@ -44,7 +44,9 @@ export const Light: Story = {
   play: async ({ canvasElement }) => {
     const element = scope(canvasElement)
     await expect(element).toHaveAttribute("data-theme", "light")
-    await expect(cssVar(element, "--ds-color-background")).toBe("oklch(1 0 0)")
+    await expect(cssVar(element, "--ds-color-background")).toBe(
+      "oklch(0.9714 0.012 101.48)",
+    )
   },
 }
 
@@ -52,7 +54,16 @@ export const Dark: Story = {
   globals: { theme: "dark" },
   play: async ({ canvasElement }) => {
     await expect(cssVar(scope(canvasElement), "--ds-color-background")).toBe(
-      "oklch(0.145 0 0)",
+      "oklch(0.1826 0.004 84.59)",
+    )
+  },
+}
+
+export const AcmeBrand: Story = {
+  globals: { brand: "acme" },
+  play: async ({ canvasElement }) => {
+    await expect(cssVar(scope(canvasElement), "--ds-color-background")).toBe(
+      "oklch(1 0 0)",
     )
   },
 }
@@ -78,6 +89,8 @@ export const NestedTheme: Story = {
     await expect(getComputedStyle(nested).borderTopColor).toBe(
       cssVar(nested, "--ds-color-border"),
     )
-    await expect(cssVar(nested, "--ds-color-border")).toBe("oklch(0.269 0 0)")
+    await expect(cssVar(nested, "--ds-color-border")).toBe(
+      "oklch(0.3271 0.012 78.15)",
+    )
   },
 }

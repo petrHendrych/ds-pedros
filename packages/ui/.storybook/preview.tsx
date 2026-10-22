@@ -4,9 +4,10 @@ import "./preview.css"
 
 import acmeCss from "@petrhendrych/tokens/brands/acme.css?inline"
 import novaCss from "@petrhendrych/tokens/brands/nova.css?inline"
+import pedrosCss from "@petrhendrych/tokens/brands/pedros.css?inline"
 import type { Decorator, Preview } from "@storybook/react-vite"
 
-const BRAND_CSS = { acme: acmeCss, nova: novaCss }
+const BRAND_CSS = { pedros: pedrosCss, acme: acmeCss, nova: novaCss }
 type Brand = keyof typeof BRAND_CSS
 
 const isBrand = (value: unknown): value is Brand =>
@@ -27,7 +28,9 @@ function applyBrandStylesheet(brand: Brand): void {
 }
 
 const withDesignSystem: Decorator = (Story, context) => {
-  const brand = isBrand(context.globals.brand) ? context.globals.brand : "acme"
+  const brand = isBrand(context.globals.brand)
+    ? context.globals.brand
+    : "pedros"
   const theme = context.globals.theme === "dark" ? "dark" : "light"
   const dir = context.globals.dir === "rtl" ? "rtl" : "ltr"
   applyBrandStylesheet(brand)
@@ -58,6 +61,7 @@ const preview: Preview = {
         title: "Brand",
         icon: "paintbrush",
         items: [
+          { value: "pedros", title: "Pedros" },
           { value: "acme", title: "Acme" },
           { value: "nova", title: "Nova" },
         ],
@@ -89,7 +93,7 @@ const preview: Preview = {
       },
     },
   },
-  initialGlobals: { brand: "acme", theme: "light", dir: "ltr" },
+  initialGlobals: { brand: "pedros", theme: "light", dir: "ltr" },
   parameters: {
     layout: "padded",
     a11y: { test: "error" },

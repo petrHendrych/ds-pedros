@@ -25,6 +25,9 @@
     "info-foreground": { "$value": "{palette.neutral.950}" },
     "border": { "$value": "{palette.neutral.800}" },
     "input": { "$value": "{palette.neutral.500}" },
-    "ring": { "$value": "{palette.blue.400}" }
+    "ring": { "$value": "{palette.blue.400}" },
+    "disabled": { "$value": "{palette.neutral.900}" },
+    "disabled-foreground": { "$value": "{palette.neutral.600}" },
+    "disabled-border": { "$value": "{palette.neutral.800}" }
   }
 }

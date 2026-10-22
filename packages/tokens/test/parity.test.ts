@@ -16,9 +16,12 @@ describe("token parity", () => {
     listBrands().flatMap((brand) =>
       MODES.map((mode) => [brand, mode] as const),
     ),
-  )("%s/%s declares exactly the tokens of acme/light", async (brand, mode) => {
-    expect(await names(brand, mode)).toEqual(
-      await names(DEFAULT_BRAND, "light"),
-    )
-  })
+  )(
+    `%s/%s declares exactly the tokens of ${DEFAULT_BRAND}/light`,
+    async (brand, mode) => {
+      expect(await names(brand, mode)).toEqual(
+        await names(DEFAULT_BRAND, "light"),
+      )
+    },
+  )
 })

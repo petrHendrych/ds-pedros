@@ -3,7 +3,7 @@ import path from "node:path"
 
 export type Mode = "light" | "dark"
 export const MODES = ["light", "dark"] as const satisfies readonly Mode[]
-export const DEFAULT_BRAND = "acme"
+export const DEFAULT_BRAND = "pedros"
 export const TOKENS_DIR = path.resolve(import.meta.dirname, "../tokens")
 
 /** Brand directories under tokens/brands, default brand first. */

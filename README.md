@@ -54,7 +54,7 @@ Storybook and guarded by visual-regression tests across browsers and viewports.
 │   │   ├── tokens/
 │   │   │   ├── primitive/        raw color ramps (palette.*)
 │   │   │   ├── semantic/         base.json (radius, font, sizes), color.light.json, color.dark.json
-│   │   │   └── brands/           acme/, nova/ — per-brand overrides (base, light, dark)
+│   │   │   └── brands/           pedros/ (default), acme/, nova/ — per-brand overrides (base, light, dark)
 │   │   ├── src/                  build modules (sources, resolve, css, js)
 │   │   ├── scripts/build.ts      writes dist/
 │   │   ├── test/                 contrast, parity, output tests
@@ -89,10 +89,12 @@ never forces a component change.
 Semantic colors use the shadcn vocabulary (background, foreground, card, popover, primary,
 secondary, muted, accent, destructive, border, input, ring — each with `-foreground` where text sits
 on it) plus success, warning and info, so upstream shadcn components need few class changes.
+`disabled`, `disabled-foreground` and `disabled-border` give every role one shared disabled look;
+WCAG exempts disabled text, so they aim for about 3:1 rather than AA.
 
 ### Categories
 
-- **Color**: palettes (primitive), and semantic roles for background, foreground/text, border, ring/focus, and status (success, warning, destructive, info)
+- **Color**: palettes (primitive), and semantic roles for background, foreground/text, border, ring/focus, status (success, warning, destructive, info) and disabled
 - **Spacing**: 4px base scale, plus semantic insets, gaps and stacks
 - **Sizing**: control heights, icon sizes, container widths
 - **Radius**
@@ -133,6 +135,10 @@ Files in `dist/` are **generated**. To change a value, edit the JSON source and 
 ### Brands and themes
 
 - Each brand has its own stylesheet, and an app imports **one** of them, which keeps the CSS small.
+- `pedros` is the default brand: charcoal-brown, sunflower-gold, eggshell, rosy-granite and dim-grey
+  ramps, with muted success, error, warning and info ramps generated on the same lightness curve.
+  Primary is sunflower-gold 700 in light (the bright 500 fails 4.5:1 on eggshell) and 500 in dark.
+  `acme` (stock shadcn neutral) and `nova` (violet) stay as reference brands.
 - Light and dark are switched at runtime:
   - `data-theme="light" | "dark"` on `<html>` (or any subtree) sets the theme explicitly.
   - Without the attribute, the theme follows `prefers-color-scheme`.
@@ -295,7 +301,7 @@ In CI, set `GITHUB_PACKAGES_TOKEN` from a secret. A workflow in another reposito
 ```css
 /* app entry CSS */
 @import "tailwindcss";
-@import "@petrhendrych/tokens/brands/acme.css"; /* exactly one brand */
+@import "@petrhendrych/tokens/brands/pedros.css"; /* exactly one brand */
 @import "@petrhendrych/tokens/theme.css"; /* Tailwind @theme mapping */
 @source "../node_modules/@petrhendrych/ui/dist"; /* let Tailwind see component classes */
 ```
