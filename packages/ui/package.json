@@ -2,7 +2,7 @@
   "name": "@petrhendrych/ui",
   "version": "0.1.1",
   "type": "module",
-  "description": "Acme React components: owned shadcn/ui on Radix, styled with @petrhendrych/tokens.",
+  "description": "ds-pedros React components: owned shadcn/ui on Radix, styled with @petrhendrych/tokens.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/petrHendrych/ds-pedros.git",

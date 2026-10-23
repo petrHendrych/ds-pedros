@@ -2,7 +2,7 @@
   "name": "@petrhendrych/tokens",
   "version": "0.2.0",
   "type": "module",
-  "description": "Acme design tokens (W3C DTCG) compiled to brand CSS variables, a Tailwind v4 theme and TS constants.",
+  "description": "ds-pedros design tokens (W3C DTCG) compiled to brand CSS variables, a Tailwind v4 theme and TS constants.",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/petrHendrych/ds-pedros.git",
