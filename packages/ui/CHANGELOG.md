@@ -1,5 +1,13 @@
 # @petrhendrych/ui
 
+## 0.2.1
+
+### Patch Changes
+
+- c99676e: Replace the leftover "Acme" in the package descriptions with "ds-pedros".
+- Updated dependencies [c99676e]
+  - @petrhendrych/tokens@0.2.2
+
 ## 0.2.0
 
 ### Minor Changes

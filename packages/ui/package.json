@@ -1,6 +1,6 @@
 {
   "name": "@petrhendrych/ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "ds-pedros React components: owned shadcn/ui on Radix, styled with @petrhendrych/tokens.",
   "repository": {
